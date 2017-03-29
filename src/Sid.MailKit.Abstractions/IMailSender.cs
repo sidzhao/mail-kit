@@ -6,14 +6,10 @@ namespace Sid.MailKit.Abstractions
     {
         void SendEmail(string subject, string content, params string[] tos);
 
-        void SendEmail(string subject, string content, params MailAddress[] tos);
-
-        void SendEmail(string subject, string content, MailAddress[] tos, MailAddress[] bccs);
+        void SendEmail(MailMessage mailMessage);
 
         Task SendEmailAsync(string subject, string content, params string[] tos);
 
-        Task SendEmailAsync(string subject, string content, params MailAddress[] tos);
-
-        Task SendEmailAsync(string subject, string content, MailAddress[] tos, MailAddress[] bccs);
+        Task SendEmailAsync(MailMessage mailMessage);
     }
 }
