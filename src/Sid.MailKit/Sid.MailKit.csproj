@@ -9,6 +9,8 @@
     <Description />
     <Product>Sid.MailKit</Product>
     <Company />
+    <Version>1.1.0</Version>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,6 +6,7 @@ using MailKit.Net.Smtp;
 using Microsoft.Extensions.Logging;
 using MimeKit;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace Sid.MailKit
 {
@@ -45,16 +46,11 @@ namespace Sid.MailKit
 
         public virtual void SendEmail(string subject, string content, params string[] tos)
         {
-            var mailMessage = new MailMessage
-            {
-                Subject = subject, 
-                Content = content, 
-                Tos = tos.Select(p => new MailAddress { Address = p }).ToList()
-            };
+            var mailMessage = new MailMessage(subject, content, tos.Select(p => new MailAddress { Address = p }).ToList());
 
             SendEmail(mailMessage);
         }
-        
+
         public virtual void SendEmail(MailMessage mailMessage)
         {
             var mimeMessage = TransferToMimeMessage(mailMessage);
@@ -70,16 +66,11 @@ namespace Sid.MailKit
 
         public virtual Task SendEmailAsync(string subject, string content, params string[] tos)
         {
-            var mailMessage = new MailMessage
-            {
-                Subject = subject,
-                Content = content,
-                Tos = tos.Select(p => new MailAddress { Address = p }).ToList()
-            };
+            var mailMessage = new MailMessage(subject, content, tos.Select(p => new MailAddress { Address = p }).ToList());
 
             return SendEmailAsync(mailMessage);
         }
-        
+
         public virtual async Task SendEmailAsync(MailMessage mailMessage)
         {
             var mimeMessage = TransferToMimeMessage(mailMessage);
@@ -138,7 +129,31 @@ namespace Sid.MailKit
                 }
             }
             mimeMessage.Subject = mailMessage.Subject;
-            mimeMessage.Body = new TextPart("plain") { Text = mailMessage.Content };
+            var body = new TextPart("plain") { Text = mailMessage.Content };
+
+            if (mailMessage.Attachments != null && mailMessage.Attachments.Count > 0)
+            {
+                var multipart = new Multipart("mixed");
+                multipart.Add(body);
+
+                foreach (var a in mailMessage.Attachments)
+                {
+                    var attachment = new MimePart(a.MediaType, a.MediaSubtype)
+                    {
+                        ContentObject = new ContentObject(File.OpenRead(a.FilePath), ContentEncoding.Default),
+                        ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                        ContentTransferEncoding = ContentEncoding.Base64,
+                        FileName = Path.GetFileName(a.FilePath)
+                    };
+                    multipart.Add(attachment);
+                }
+
+                mimeMessage.Body = multipart;
+            }
+            else
+            {
+                mimeMessage.Body = body;
+            }
 
             return mimeMessage;
         }
