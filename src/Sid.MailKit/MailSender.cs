@@ -129,7 +129,7 @@ namespace Sid.MailKit
                 }
             }
             mimeMessage.Subject = mailMessage.Subject;
-            var body = new TextPart("plain") { Text = mailMessage.Content };
+            var body = new TextPart(mailMessage.IsHtml ? "html" : "plain") { Text = mailMessage.Content };
 
             if (mailMessage.Attachments != null && mailMessage.Attachments.Count > 0)
             {

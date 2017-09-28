@@ -23,5 +23,7 @@ namespace Sid.MailKit.Abstractions
         public IList<MailAddress> Bcc { get; set; }
 
         public IList<MailAttachment> Attachments { get; set; }
+
+        public bool IsHtml { get; set; } = false;
     }
 }

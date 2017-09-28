@@ -9,7 +9,7 @@ namespace Sid.MailKit.Tests
     public class Outlook365MailSenderTest
     {
         [Fact]
-        public async Task TestSendEmailForOutlook365()
+        public async Task TestSendEmail()
         {
             var mailSender = new Outlook365MailSender("username", "password");
 
@@ -19,7 +19,7 @@ namespace Sid.MailKit.Tests
         }
 
         [Fact]
-        public async Task TestSendEmailWithAttachmentsForOutlook365()
+        public async Task TestSendEmailWithAttachments()
         {
             var mailSender = new Outlook365MailSender("username", "password");
 
@@ -36,6 +36,24 @@ namespace Sid.MailKit.Tests
             mailSender.SendEmail(mailMessage);
 
             await mailSender.SendEmailAsync(mailMessage);
+        }
+
+        [Fact]
+        public async Task TestSendEmailUsingHtml()
+        {
+            var mailSender = new Outlook365MailSender("username", "password");
+
+            var mailMessage = new MailMessage("test", "<strong>Test<br/> is</br> ok</strong>", new List<MailAddress>
+                {
+                    new MailAddress{Address = "mailaddress" }
+                })
+            {
+                IsHtml = true
+            };
+
+            mailSender.SendEmail(mailMessage);
+
+            await mailSender.SendEmailAsync("test", "test async is ok", "mailaddress");
         }
     }
 }
