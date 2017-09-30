@@ -125,7 +125,7 @@ namespace Sid.MailKit
             {
                 foreach (var bcc in mailMessage.Bcc)
                 {
-                    mimeMessage.To.Add(new MailboxAddress(string.IsNullOrEmpty(bcc.Address) ? bcc.Address : bcc.DisplayName, bcc.Address));
+                    mimeMessage.Bcc.Add(new MailboxAddress(string.IsNullOrEmpty(bcc.Address) ? bcc.Address : bcc.DisplayName, bcc.Address));
                 }
             }
             mimeMessage.Subject = mailMessage.Subject;
