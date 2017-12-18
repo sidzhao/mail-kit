@@ -8,10 +8,10 @@
     <Description></Description>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/sidzhao/mail-kit.git</RepositoryUrl>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/sidzhao/mail-kit</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <Version>1.1.1</Version>
+    <Version>1.1.3</Version>
     <Copyright />
   </PropertyGroup>
 

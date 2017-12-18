@@ -7,6 +7,11 @@ namespace Sid.MailKit.Abstractions
 {
     public class MailAttachment
     {
+        public MailAttachment(string filePath)
+        {
+            FilePath = filePath;
+        }
+
         public MailAttachment(string filePath, string mediaType, string mediaSubtype)
         {
             FilePath = filePath;

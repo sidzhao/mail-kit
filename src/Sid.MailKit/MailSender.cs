@@ -138,14 +138,7 @@ namespace Sid.MailKit
 
                 foreach (var a in mailMessage.Attachments)
                 {
-                    var attachment = new MimePart(a.MediaType, a.MediaSubtype)
-                    {
-                        ContentObject = new ContentObject(File.OpenRead(a.FilePath), ContentEncoding.Default),
-                        ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                        ContentTransferEncoding = ContentEncoding.Base64,
-                        FileName = Path.GetFileName(a.FilePath)
-                    };
-                    multipart.Add(attachment);
+                    multipart.Add(TransferToMimePart(a));
                 }
 
                 mimeMessage.Body = multipart;
@@ -156,6 +149,43 @@ namespace Sid.MailKit
             }
 
             return mimeMessage;
+        }
+
+        protected virtual MimePart TransferToMimePart(MailAttachment attachment)
+        {
+            var mediaType = attachment.MediaType;
+            var mediaSubtype = attachment.MediaSubtype;
+
+            if (string.IsNullOrEmpty(mediaType) || string.IsNullOrEmpty(mediaSubtype))
+            {
+                var extesion = Path.GetExtension(attachment.FilePath).ToLower().Substring(1);
+
+                mediaType = this.GetMediaType(extesion);
+                mediaSubtype = extesion;
+            }
+
+            var mimePart = new MimePart(mediaType, mediaSubtype)
+            {
+                ContentObject = new ContentObject(File.OpenRead(attachment.FilePath), ContentEncoding.Default),
+                ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                ContentTransferEncoding = ContentEncoding.Base64,
+                FileName = Path.GetFileName(attachment.FilePath)
+            };
+
+            return mimePart;
+        }
+
+        protected virtual string GetMediaType(string extesion)
+        {
+            if (extesion.Contains("png") || extesion.Contains("jpg") || extesion.Contains("jpeg") ||
+                extesion.Contains("gif") || extesion.Contains("bmp"))
+            {
+                return "image";
+            }
+            else
+            {
+                return "document";
+            }
         }
     }
 }
