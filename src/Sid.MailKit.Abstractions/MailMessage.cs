@@ -20,6 +20,8 @@ namespace Sid.MailKit.Abstractions
 
         public IList<MailAddress> Tos { get; set; }
 
+        public IList<MailAddress> Cc { get; set; }
+
         public IList<MailAddress> Bcc { get; set; }
 
         public IList<MailAttachment> Attachments { get; set; }

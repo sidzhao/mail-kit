@@ -119,13 +119,20 @@ namespace Sid.MailKit
 
             foreach (var to in mailMessage.Tos)
             {
-                mimeMessage.To.Add(new MailboxAddress(string.IsNullOrEmpty(to.Address) ? to.Address : to.DisplayName, to.Address));
+                mimeMessage.To.Add(new MailboxAddress(string.IsNullOrEmpty(to.DisplayName) ? to.Address : to.DisplayName, to.Address));
+            }
+            if (mailMessage.Cc != null)
+            {
+                foreach (var cc in mailMessage.Cc)
+                {
+                    mimeMessage.Cc.Add(new MailboxAddress(string.IsNullOrEmpty(cc.DisplayName) ? cc.Address : cc.DisplayName, cc.Address));
+                }
             }
             if (mailMessage.Bcc != null)
             {
                 foreach (var bcc in mailMessage.Bcc)
                 {
-                    mimeMessage.Bcc.Add(new MailboxAddress(string.IsNullOrEmpty(bcc.Address) ? bcc.Address : bcc.DisplayName, bcc.Address));
+                    mimeMessage.Bcc.Add(new MailboxAddress(string.IsNullOrEmpty(bcc.DisplayName) ? bcc.Address : bcc.DisplayName, bcc.Address));
                 }
             }
             mimeMessage.Subject = mailMessage.Subject;
