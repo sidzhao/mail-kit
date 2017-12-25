@@ -1,6 +1,7 @@
 using Sid.MailKit.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -27,10 +28,16 @@ namespace Sid.MailKit.Tests
                 {
                     new MailAddress{Address = "mailaddress" }
                 });
+
+            var fs = new FileStream(@"D:\\test.docx", FileMode.Open, FileAccess.Read);
+            var bytes = new byte[fs.Length];
+            fs.Read(bytes, 0, (int)fs.Length);
+
             mailMessage.Attachments = new List<MailAttachment>
                 {
-                    new MailAttachment("D:\\header-bg.png", "image", "png"),
-                    new MailAttachment("D:\\test.doc", "document", "doc")
+                    new MailAttachment("test.pdf",@"D:\\test.pdf"),
+                    new MailAttachment("test.docx",@"D:\\test.docx"),
+                    new MailAttachment("test.docx", bytes)
                 };
 
             mailSender.SendEmail(mailMessage);

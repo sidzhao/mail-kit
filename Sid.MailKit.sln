@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sid.MailKit.Abstractions", "src\Sid.MailKit.Abstractions\Sid.MailKit.Abstractions.csproj", "{CC01AB71-23E0-468C-86D4-BDE348DF98F9}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sid.MailKit", "src\Sid.Mail
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DCAD7134-D103-49F2-B529-B55C8FB17348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sid.MailKit.Tests", "test\Sid.MailKit.Tests\Sid.MailKit.Tests.csproj", "{52FB2EE0-E68A-4589-96DE-7C611B485629}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sid.MailKit.Tests", "test\Sid.MailKit.Tests\Sid.MailKit.Tests.csproj", "{52FB2EE0-E68A-4589-96DE-7C611B485629}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,5 +39,8 @@ Global
 		{CC01AB71-23E0-468C-86D4-BDE348DF98F9} = {B12F796F-B745-42C7-8417-456D39799230}
 		{DCE9874E-B851-4F4F-B302-B3A3F690647E} = {B12F796F-B745-42C7-8417-456D39799230}
 		{52FB2EE0-E68A-4589-96DE-7C611B485629} = {DCAD7134-D103-49F2-B529-B55C8FB17348}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1F1F1EE-8D5D-492C-87F0-258EBB8ECD4D}
 	EndGlobalSection
 EndGlobal

@@ -160,39 +160,31 @@ namespace Sid.MailKit
 
         protected virtual MimePart TransferToMimePart(MailAttachment attachment)
         {
-            var mediaType = attachment.MediaType;
-            var mediaSubtype = attachment.MediaSubtype;
-
-            if (string.IsNullOrEmpty(mediaType) || string.IsNullOrEmpty(mediaSubtype))
+            var mimePart = new MimePart
             {
-                var extesion = Path.GetExtension(attachment.FilePath).ToLower().Substring(1);
-
-                mediaType = this.GetMediaType(extesion);
-                mediaSubtype = extesion;
-            }
-
-            var mimePart = new MimePart(mediaType, mediaSubtype)
-            {
-                ContentObject = new ContentObject(File.OpenRead(attachment.FilePath), ContentEncoding.Default),
                 ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
                 ContentTransferEncoding = ContentEncoding.Base64,
-                FileName = Path.GetFileName(attachment.FilePath)
+                FileName = attachment.FileName
             };
 
-            return mimePart;
-        }
-
-        protected virtual string GetMediaType(string extesion)
-        {
-            if (extesion.Contains("png") || extesion.Contains("jpg") || extesion.Contains("jpeg") ||
-                extesion.Contains("gif") || extesion.Contains("bmp"))
+            if (!string.IsNullOrEmpty(attachment.FilePath))
             {
-                return "image";
+                mimePart.ContentObject = new ContentObject(File.OpenRead(attachment.FilePath));
+            }
+            else if(attachment.Bytes != null)
+            {
+                mimePart.ContentObject = new ContentObject(new MemoryStream(attachment.Bytes));
+            }
+            else if (attachment.Stream != null)
+            {
+                mimePart.ContentObject = new ContentObject(attachment.Stream);
             }
             else
             {
-                return "document";
+                throw new Exception("Attachment content cannot be null.");
             }
+
+            return mimePart;
         }
     }
 }
