@@ -136,24 +136,34 @@ namespace Sid.MailKit
                 }
             }
             mimeMessage.Subject = mailMessage.Subject;
-            var body = new TextPart(mailMessage.IsHtml ? "html" : "plain") { Text = mailMessage.Content };
 
-            if (mailMessage.Attachments != null && mailMessage.Attachments.Count > 0)
+            var body= new BodyBuilder();
+            if (mailMessage.IsHtml)
             {
-                var multipart = new Multipart("mixed");
-                multipart.Add(body);
-
-                foreach (var a in mailMessage.Attachments)
-                {
-                    multipart.Add(TransferToMimePart(a));
-                }
-
-                mimeMessage.Body = multipart;
+                body.HtmlBody = mailMessage.Content;
             }
             else
             {
-                mimeMessage.Body = body;
+                body.TextBody = mailMessage.Content;
             }
+
+            if (mailMessage.Attachments != null && mailMessage.Attachments.Count > 0)
+            {
+                foreach (var a in mailMessage.Attachments)
+                {
+                    body.Attachments.Add(TransferToMimePart(a));
+                }
+            }
+
+            if (mailMessage.LinkedResources != null && mailMessage.LinkedResources.Count > 0)
+            {
+                foreach (var lr in mailMessage.LinkedResources)
+                {
+                    body.LinkedResources.Add(TransferToMimePart(lr));
+                }
+            }
+
+            mimeMessage.Body = body.ToMessageBody();
 
             return mimeMessage;
         }
@@ -164,7 +174,8 @@ namespace Sid.MailKit
             {
                 ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
                 ContentTransferEncoding = ContentEncoding.Base64,
-                FileName = attachment.FileName
+                FileName = attachment.FileName,
+                ContentId = attachment.ContentId
             };
 
             if (!string.IsNullOrEmpty(attachment.FilePath))

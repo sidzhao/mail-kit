@@ -36,5 +36,7 @@ namespace Sid.MailKit.Abstractions
         public string MediaType { get; set; }
 
         public string MediaSubtype { get; set; }
+
+        public string ContentId { get; set; }
     }
 }

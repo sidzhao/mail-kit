@@ -11,7 +11,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/sidzhao/mail-kit</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <Version>1.1.5</Version>
+    <Version>1.1.6</Version>
     <Copyright />
   </PropertyGroup>
 

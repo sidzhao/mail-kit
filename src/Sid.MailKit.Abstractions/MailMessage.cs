@@ -26,6 +26,8 @@ namespace Sid.MailKit.Abstractions
 
         public IList<MailAttachment> Attachments { get; set; }
 
+        public IList<MailAttachment> LinkedResources { get; set; }
+
         public bool IsHtml { get; set; } = false;
     }
 }
