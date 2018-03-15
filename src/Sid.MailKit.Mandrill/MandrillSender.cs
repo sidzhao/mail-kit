@@ -98,14 +98,14 @@ namespace Sid.MailKit.Mandrill
 
             if (mailMessage.Cc != null && mailMessage.Cc.Any())
             {
-                var cc = mailMessage.Tos.Select(p => new MandrillMailAddress(p.Address, p.DisplayName)).ToList();
+                var cc = mailMessage.Cc.Select(p => new MandrillMailAddress(p.Address, p.DisplayName)).ToList();
                 cc.ForEach(p=>p.Type = MandrillMailAddressType.Cc);
                 message.To.AddRange(cc);
             }
 
             if (mailMessage.Bcc != null && mailMessage.Bcc.Any())
             {
-                var bcc = mailMessage.Tos.Select(p => new MandrillMailAddress(p.Address, p.DisplayName)).ToList();
+                var bcc = mailMessage.Bcc.Select(p => new MandrillMailAddress(p.Address, p.DisplayName)).ToList();
                 bcc.ForEach(p => p.Type = MandrillMailAddressType.Bcc);
                 message.To.AddRange(bcc);
             }
