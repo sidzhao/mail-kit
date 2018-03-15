@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Sid.MailKit.Abstractions\Sid.MailKit.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Sid.MailKit.Mandrill\Sid.MailKit.Mandrill.csproj" />
     <ProjectReference Include="..\..\src\Sid.MailKit\Sid.MailKit.csproj" />
   </ItemGroup>
 

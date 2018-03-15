@@ -43,25 +43,31 @@ namespace Sid.MailKit
         public MailServerOptions MailServerOptions { get; }
 
         public ILogger<MailSender> Logger { get; }
-
-        public virtual void SendEmail(string subject, string content, params string[] tos)
+        
+        public Task<MailSendMessageResponse> SendEmailAndReturnAsync(string subject, string content, params string[] tos)
         {
             var mailMessage = new MailMessage(subject, content, tos.Select(p => new MailAddress { Address = p }).ToList());
 
-            SendEmail(mailMessage);
+            return SendEmailAndReturnAsync(mailMessage);
         }
 
-        public virtual void SendEmail(MailMessage mailMessage)
+        public async Task<MailSendMessageResponse> SendEmailAndReturnAsync(MailMessage mailMessage)
         {
-            var mimeMessage = TransferToMimeMessage(mailMessage);
-            using (var client = new SmtpClient())
+            var response = new MailSendMessageResponse();
+
+            try
             {
-                client.Connect(MailServerOptions.Host, MailServerOptions.Port, false);
-                client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(MailServerOptions.UserName, MailServerOptions.Password);
-                client.Send(mimeMessage);
-                client.Disconnect(true);
+                await SendEmailAsync(mailMessage);
+
+                response.Status = MailSendMessageResponseStatus.Sent;
             }
+            catch(Exception e)
+            {
+                response.Status = MailSendMessageResponseStatus.Failed;
+                response.FailedReason = e.Message;
+            }
+
+            return response;
         }
 
         public virtual Task SendEmailAsync(string subject, string content, params string[] tos)
@@ -180,15 +186,15 @@ namespace Sid.MailKit
 
             if (!string.IsNullOrEmpty(attachment.FilePath))
             {
-                mimePart.ContentObject = new ContentObject(File.OpenRead(attachment.FilePath));
+                mimePart.Content = new MimeContent(File.OpenRead(attachment.FilePath));
             }
             else if(attachment.Bytes != null)
             {
-                mimePart.ContentObject = new ContentObject(new MemoryStream(attachment.Bytes));
+                mimePart.Content = new MimeContent(new MemoryStream(attachment.Bytes));
             }
             else if (attachment.Stream != null)
             {
-                mimePart.ContentObject = new ContentObject(attachment.Stream);
+                mimePart.Content = new MimeContent(attachment.Stream);
             }
             else
             {
