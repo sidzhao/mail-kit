@@ -9,9 +9,9 @@ namespace Sid.MailKit.Tests
 {
     public class Outlook365MailSenderTest
     {
-        private const string Username = "noreply@webezi.com.au";
-        private const string Password = "Yuxa7956";
-        private const string Address = "sid.zhao@webezi.com.au";
+        private const string Username = "username";
+        private const string Password = "password";
+        private const string Address = "emailaddress";
 
         [Fact]
         public async Task TestSendEmail()

@@ -12,10 +12,10 @@ namespace Sid.MailKit.Tests
     {
         private MandrillOptions Options = new MandrillOptions
         {
-            ApiKey = "3S_Cvmd0NBPZZ852GfrANA",
+            ApiKey = "niAdoV6_ZE379eApS66Emw",
             From = new MailAddress { Address = "test@webezi.com.au", DisplayName = "Test Account" }
         };
-        private const string Address = "sid.zhao@webezi.com.au";
+        private const string Address = "emailaddress";
 
         [Fact]
         public async Task TestSendEmail()
